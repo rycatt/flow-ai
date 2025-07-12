@@ -2,6 +2,7 @@
 import { FlowchartCanvas } from "@/components/FlowchartCanvas";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { VoiceInput } from "@/components/VoiceInput";
 import { Edge, Node } from "@xyflow/react";
 import React, { useEffect, useState } from "react";
 
@@ -87,6 +88,7 @@ export default function Home() {
                   disabled={loading}
                   className="w-full h-52 p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition-all duration-200"
                 />
+                <VoiceInput onTranscription={setInput} />
                 <button
                   onClick={handleClick}
                   disabled={loading || !input.trim()}
