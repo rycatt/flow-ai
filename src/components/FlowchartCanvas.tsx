@@ -50,16 +50,24 @@ export const FlowchartCanvas = ({
         fitView
         className="w-full h-full"
         defaultViewport={{ x: 0, y: 0, zoom: 1 }}
+        defaultEdgeOptions={{ zIndex: 1 }}
       >
         <Controls className="!bg-card !border-border" />
         <MiniMap
           className="absolute bottom-2 right-2 bg-white/95 border border-gray-300"
           nodeColor={(node) => {
+            const label = (node.data?.label as string) || "";
+            if (label.includes("Setup")) return "#059669";
+            if (label.includes("Processing")) return "#3b82f6";
+            if (label.includes("Validation")) return "#f59e0b";
+            if (label.includes("Output")) return "#dc2626";
             switch (node.type) {
               case "input":
                 return "#059669";
               case "output":
                 return "#dc2626";
+              case "group":
+                return "#8b5cf6";
               default:
                 return "#374151";
             }
