@@ -1,6 +1,24 @@
 import { GoogleGenAI } from "@google/genai";
 import { NextRequest, NextResponse } from "next/server";
 
+interface FlowchartData {
+  nodes: Array<{
+    id: string;
+    type: string;
+    position: { x: number; y: number };
+    data: { label: string };
+    parentId?: string;
+    style?: { width?: number; height?: number };
+  }>;
+  edges: Array<{
+    id: string;
+    source: string;
+    target: string;
+    type?: string;
+    label?: string;
+  }>;
+}
+
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
 });
@@ -50,13 +68,79 @@ Process: "${prompt}"`;
     });
 
     const response = await model;
-    const result = response.text;
+    const generatedText = response.text;
 
-    return NextResponse.json({ result });
+    if (!generatedText) {
+      throw new Error("No response generated");
+    }
+
+    const cleanedText = generatedText
+      .replace(/```json\n?/g, "")
+      .replace(/```\n?/g, "")
+      .replace(/^\s*[\w\s:]*\n/, "")
+      .trim();
+
+    let flowchartData: FlowchartData;
+
+    try {
+      flowchartData = JSON.parse(cleanedText);
+    } catch (parseError) {
+      console.error("JSON Parse Error:", parseError);
+      console.error("Raw response:", generatedText);
+      throw new Error("Invalid JSON response from AI");
+    }
+
+    if (!flowchartData.nodes || !Array.isArray(flowchartData.nodes)) {
+      throw new Error("Invalid nodes structure");
+    }
+
+    if (!flowchartData.edges || !Array.isArray(flowchartData.edges)) {
+      throw new Error("Invalid edges structure");
+    }
+
+    flowchartData.nodes = flowchartData.nodes.map((node, index) => ({
+      id: node.id || `node-${index}`,
+      type: node.type === "decision" ? "default" : node.type || "default",
+      position: node.position || {
+        x: 100 + (index % 3) * 200,
+        y: 100 + Math.floor(index / 3) * 100,
+      },
+      data: { label: node.data?.label || `Step ${index + 1}` },
+      parentId: node.parentId,
+      style: node.style,
+    }));
+
+    const validNodeIds = new Set(flowchartData.nodes.map((node) => node.id));
+
+    flowchartData.edges = flowchartData.edges
+      .filter((edge) => {
+        const isValid =
+          validNodeIds.has(edge.source) && validNodeIds.has(edge.target);
+        if (!isValid) {
+          console.warn(
+            `Filtering out invalid edge: ${edge.source} -> ${edge.target}`
+          );
+        }
+        return isValid;
+      })
+      .map((edge, index) => ({
+        id: edge.id || `edge-${index}`,
+        source: edge.source,
+        target: edge.target,
+        type: edge.type || "default",
+        label: edge.label,
+      }));
+
+    return NextResponse.json({ result: JSON.stringify(flowchartData) });
   } catch (error) {
     console.error("Error generating flowchart:", error);
     return NextResponse.json(
-      { error: "Failed to generate flowchart" },
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to generate flowchart",
+      },
       { status: 500 }
     );
   }

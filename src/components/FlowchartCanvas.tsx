@@ -10,9 +10,10 @@ import {
   addEdge,
   useEdgesState,
   useNodesState,
+  useReactFlow,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface FlowchartCanvasProps {
   nodes?: Node[];
@@ -25,11 +26,50 @@ export const FlowchartCanvas = ({
 }: FlowchartCanvasProps) => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nodeId, setNodeId] = useState(0);
+
+  const reactFlowInstance = useReactFlow();
+
+  const [lastClickTime, setLastClickTime] = useState(0);
+
+  const onPaneClick = useCallback(
+    (event: React.MouseEvent) => {
+      const currentTime = new Date().getTime();
+      const timeDiff = currentTime - lastClickTime;
+
+      if (timeDiff < 300) {
+        const position = reactFlowInstance.screenToFlowPosition({
+          x: event.clientX - 150,
+          y: event.clientY - 50,
+        });
+
+        const newNode = {
+          id: `node-${nodeId}`,
+          type: "default",
+          position,
+          data: { label: `Node ${nodeId + 1}` },
+        };
+
+        setNodes((nds) => [...nds, newNode]);
+        setNodeId((id) => id + 1);
+        setLastClickTime(0);
+      } else {
+        setLastClickTime(currentTime);
+      }
+    },
+    [nodeId, setNodes, reactFlowInstance, lastClickTime]
+  );
 
   const onConnect = useCallback(
     (params: Connection) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
   );
+
+  useEffect(() => {
+    if (nodes.length === 0) {
+      setNodeId(0);
+    }
+  }, [nodes.length]);
 
   useEffect(() => {
     setNodes(initialNodes);
@@ -40,13 +80,14 @@ export const FlowchartCanvas = ({
   }, [initialEdges, setEdges]);
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full cursor-crosshair">
       <ReactFlow
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        onPaneClick={onPaneClick}
         fitView
         className="w-full h-full"
         defaultViewport={{ x: 0, y: 0, zoom: 1 }}

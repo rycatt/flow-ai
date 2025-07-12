@@ -88,7 +88,7 @@ export const VoiceInput = ({ onTranscription }: VoiceInputProps) => {
       onClick={toggleRecording}
       className={`
         relative w-10 h-10 rounded-full border-2 transition-all duration-200 ease-in-out
-        flex items-center justify-center shadow-sm
+        flex items-center justify-center shadow-sm cursor-pointer
         ${
           recording
             ? "bg-red-500 border-red-600 text-white shadow-lg scale-110"
