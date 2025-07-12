@@ -81,14 +81,18 @@ export default function Home() {
                 <CardTitle className="text-xl">Describe Your Flow</CardTitle>
               </CardHeader>
               <CardContent>
-                <textarea
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="e.g. User login, order processing, or customer support workflow"
-                  disabled={loading}
-                  className="w-full h-52 p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition-all duration-200"
-                />
-                <VoiceInput onTranscription={setInput} />
+                <div className="relative">
+                  <textarea
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder="e.g. User login, order processing, or customer support workflow"
+                    disabled={loading}
+                    className="w-full h-96 p-3 pr-12 border border-gray-300 rounded-md focus:ring-2 focus:ring-gray-500 focus:border-transparent resize-none transition-all duration-200"
+                  />
+                  <div className="absolute bottom-3 right-3">
+                    <VoiceInput onTranscription={setInput} />
+                  </div>
+                </div>
                 <button
                   onClick={handleClick}
                   disabled={loading || !input.trim()}
@@ -104,7 +108,7 @@ export default function Home() {
           {loading && (
             <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex items-center justify-center">
               <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-600 mx-auto mb-4"></div>
                 <p className="text-gray-600 font-medium">
                   Generating your flowchart...
                 </p>

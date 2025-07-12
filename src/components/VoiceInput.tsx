@@ -1,3 +1,4 @@
+import { Mic } from "lucide-react";
 import React, { useRef, useState } from "react";
 import {
   SpeechRecognition,
@@ -5,11 +6,18 @@ import {
   SpeechRecognitionEvent,
   VoiceInputProps,
 } from "../types/speech";
-import { Button } from "./ui/button";
 
 export const VoiceInput = ({ onTranscription }: VoiceInputProps) => {
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const [recording, setRecording] = useState(false);
+
+  const toggleRecording = () => {
+    if (recording) {
+      stopRecording();
+    } else {
+      startRecording();
+    }
+  };
 
   const startRecording = () => {
     try {
@@ -76,13 +84,29 @@ export const VoiceInput = ({ onTranscription }: VoiceInputProps) => {
   };
 
   return (
-    <Button
-      onMouseDown={startRecording}
-      onMouseUp={stopRecording}
-      onTouchStart={startRecording}
-      onTouchEnd={stopRecording}
+    <button
+      onClick={toggleRecording}
+      className={`
+        relative w-10 h-10 rounded-full border-2 transition-all duration-200 ease-in-out
+        flex items-center justify-center shadow-sm
+        ${
+          recording
+            ? "bg-red-500 border-red-600 text-white shadow-lg scale-110"
+            : "bg-white border-gray-300 text-gray-600 hover:border-gray-400 hover:bg-gray-50"
+        }
+      `}
+      disabled={recording}
+      title={recording ? "Click to stop" : "Click to start recording"}
     >
-      {recording ? "Recording..." : "Hold to Speak"}
-    </Button>
+      {recording ? (
+        <Mic className="w-4 h-4 animate-pulse" />
+      ) : (
+        <Mic className="w-4 h-4" />
+      )}
+
+      {recording && (
+        <div className="absolute inset-0 rounded-full border-2 border-red-400 animate-ping opacity-75" />
+      )}
+    </button>
   );
 };
