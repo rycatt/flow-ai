@@ -16,106 +16,36 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const systemPrompt = `You are a flowchart generation AI. Convert the user's text description into a JSON object with nodes and edges for a React Flow diagram using sub-flows (parent-child nodes).
+    const systemPrompt = `You are a flowchart generation AI responsible for creating well-organized, effective, quality flowcharts. Generate React Flow JSON with nodes and edges from process description.
 
-Rules:
-1. Create nodes with unique IDs, positions (x, y coordinates), and data.label
-2. Create edges connecting nodes with source and target IDs
-3. Use different node types: 'input' for start, 'output' for end, 'default' for process steps, 'group' for parent nodes
-4. Position nodes logically (top to bottom, left to right)
-5. Each step in the flow should be a separate node
-6. Decision points should branch into multiple paths
-7. LIMIT: Maximum 15-20 nodes total for better visualization
-8. Organize the process into logical phases using parent-child relationships
-9. Use parentId to create sub-flows within group nodes
+RULES:
+1. Node types: 'input' (start), 'output' (end), 'default' (process), 'decision' (choice/condition), 'group' (container/phase)
+2. Required fields: id, type, position {x,y}, data.label
+3. Decision nodes: create labeled edges for each outcome ("Yes/No", "Press 1/2/3"). All outgoing edges from decision nodes must have a label.
+4. Groups: For each logical phase, create a group node (type: 'group') with a clear label. All steps in a phase should be child nodes with parentId set to the group node's id. Group nodes must be connected to the main flow (either directly or via their first/last child).
+5. Layout: vertical main flow, horizontal branches, 100-150px spacing. No overlapping nodes. Keep the layout compact and readable.
+6. Connectivity: every node connects, no floating or unused nodes, all branches reconnect to the main flow or end.
+7. Parent nodes before children in array.
+8. Max 15-20 nodes for performance.
+9. Output valid JSON only, no markdown or explanation.
 
-Sub-Flow Organization:
-- Create parent nodes with type 'group' for each phase (Setup, Processing, Validation, Output)
-- Use parentId to make child nodes belong to their parent group
-- Position child nodes close together within their parent (e.g., x: 20-180, y: 20-180)
-- Parent nodes should be only as large as needed to fit their children (avoid large or empty containers)
-- Avoid overlapping nodes and keep the layout compact and readable
-- Parent nodes must appear before their children in the nodes array
-
-Response format:
+Example structure:
 {
   "nodes": [
-    {
-      "id": "1",
-      "type": "input",
-      "position": { "x": 300, "y": 50 },
-      "data": { "label": "Start" }
-    },
-    {
-      "id": "setup-group",
-      "type": "group",
-      "position": { "x": 200, "y": 150 },
-      "style": { "width": 180, "height": 120 },
-      "data": { "label": "Setup Phase" }
-    },
-    {
-      "id": "2",
-      "type": "default",
-      "position": { "x": 20, "y": 20 },
-      "parentId": "setup-group",
-      "data": { "label": "Initialize System" }
-    },
-    {
-      "id": "3",
-      "type": "default",
-      "position": { "x": 20, "y": 60 },
-      "parentId": "setup-group",
-      "data": { "label": "Load Configuration" }
-    },
-    {
-      "id": "processing-group",
-      "type": "group",
-      "position": { "x": 500, "y": 150 },
-      "style": { "width": 180, "height": 120 },
-      "data": { "label": "Processing Phase" }
-    },
-    {
-      "id": "4",
-      "type": "default",
-      "position": { "x": 20, "y": 20 },
-      "parentId": "processing-group",
-      "data": { "label": "Process Data" }
-    },
-    {
-      "id": "5",
-      "type": "default",
-      "position": { "x": 20, "y": 60 },
-      "parentId": "processing-group",
-      "data": { "label": "Apply Rules" }
-    },
-    {
-      "id": "6",
-      "type": "output",
-      "position": { "x": 300, "y": 400 },
-      "data": { "label": "End" }
-    }
+    {"id": "start", "type": "input", "position": {"x": 400, "y": 50}, "data": {"label": "Start"}},
+    {"id": "group1", "type": "group", "position": {"x": 300, "y": 150}, "style": {"width": 200, "height": 100}, "data": {"label": "Phase 1"}},
+    {"id": "decision1", "type": "decision", "position": {"x": 50, "y": 40}, "parentId": "group1", "data": {"label": "Choice?"}}
   ],
   "edges": [
-    { "id": "e1-2", "source": "1", "target": "2" },
-    { "id": "e2-3", "source": "2", "target": "3" },
-    { "id": "e3-4", "source": "3", "target": "4" },
-    { "id": "e4-5", "source": "4", "target": "5" },
-    { "id": "e5-6", "source": "5", "target": "6" }
+    {"id": "e1", "source": "start", "target": "group1"},
+    {"id": "e2", "source": "decision1", "target": "next", "label": "Yes"}
   ]
 }
 
-IMPORTANT:
-- Respond ONLY with valid JSON, no explanation or markdown
-- Use data.label for node labels, not just "label"
-- Position parent nodes with minimal size to fit their children (e.g., width: 180, height: 120)
-- Position child nodes close together within parent (avoid large gaps)
-- Avoid overlapping nodes and keep the layout compact and readable
-- Parent nodes must appear before their children in the nodes array
-
-User's process: "${prompt}"`;
+Process: "${prompt}"`;
 
     const model = ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.5-pro",
       contents: systemPrompt,
     });
 
