@@ -115,7 +115,10 @@ Process: "${prompt}"`;
     flowchartData.edges = flowchartData.edges
       .filter((edge) => {
         const isValid =
-          validNodeIds.has(edge.source) && validNodeIds.has(edge.target);
+          edge.source &&
+          edge.target &&
+          validNodeIds.has(edge.source) &&
+          validNodeIds.has(edge.target);
         if (!isValid) {
           console.warn(
             `Filtering out invalid edge: ${edge.source} -> ${edge.target}`
@@ -123,13 +126,26 @@ Process: "${prompt}"`;
         }
         return isValid;
       })
-      .map((edge, index) => ({
-        id: edge.id || `edge-${index}`,
-        source: edge.source,
-        target: edge.target,
-        type: edge.type || "default",
-        label: edge.label,
-      }));
+      .map((edge) => {
+        const cleaned = { ...edge };
+        if (
+          "sourceHandle" in cleaned &&
+          (cleaned.sourceHandle === null ||
+            cleaned.sourceHandle === "null" ||
+            cleaned.sourceHandle === undefined)
+        ) {
+          delete cleaned.sourceHandle;
+        }
+        if (
+          "targetHandle" in cleaned &&
+          (cleaned.targetHandle === null ||
+            cleaned.targetHandle === "null" ||
+            cleaned.targetHandle === undefined)
+        ) {
+          delete cleaned.targetHandle;
+        }
+        return cleaned;
+      });
 
     return NextResponse.json({ result: JSON.stringify(flowchartData) });
   } catch (error) {
