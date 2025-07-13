@@ -255,9 +255,23 @@
   transition: border-color 0.2s, box-shadow 0.2s !important;
 }
 
+.dark .react-flow .react-flow__node {
+  background: rgba(38, 38, 38, 0.9) !important;
+  border: 1px solid #525252 !important;
+  color: #ffffff !important;
+  box-shadow: 0 1.5px 6px 0 rgba(0, 0, 0, 0.2), 0 1.5px 6px 0 rgba(0, 0, 0, 0.3) !important;
+}
+
 .react-flow .react-flow__node-group {
   background: rgba(135, 135, 135, 0.2) !important;
   border: 1.5px dashed #838383 !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}
+
+.dark .react-flow .react-flow__node-group {
+  background: rgba(38, 38, 38, 0.3) !important;
+  border: 1.5px dashed #525252 !important;
   border-radius: 10px !important;
   box-shadow: none !important;
 }
@@ -268,10 +282,22 @@
   color: #006064 !important;
 }
 
+.dark .react-flow .react-flow__node-input {
+  background: rgba(59, 130, 246, 0.2) !important;
+  border: 2px solid #3b82f6 !important;
+  color: #ffffff !important;
+}
+
 .react-flow .react-flow__node-output {
   background: #ffebee !important;
   border: 2px solid #e53935 !important;
   color: #b71c1c !important;
+}
+
+.dark .react-flow .react-flow__node-output {
+  background: rgba(239, 68, 68, 0.2) !important;
+  border: 2px solid #ef4444 !important;
+  color: #ffffff !important;
 }
 
 .react-flow__controls {

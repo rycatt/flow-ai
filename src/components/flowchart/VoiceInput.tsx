@@ -1,17 +1,19 @@
 import { Mic } from "lucide-react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   SpeechRecognition,
   SpeechRecognitionErrorEvent,
   SpeechRecognitionEvent,
   VoiceInputProps,
-} from "../types/speech";
+} from "../../types/speech";
 
-export const VoiceInput = ({ onTranscription }: VoiceInputProps) => {
+export const VoiceInput = ({ onTranscription, disabled }: VoiceInputProps) => {
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const [recording, setRecording] = useState(false);
 
   const toggleRecording = () => {
+    if (disabled) return;
+
     if (recording) {
       stopRecording();
     } else {
@@ -20,6 +22,8 @@ export const VoiceInput = ({ onTranscription }: VoiceInputProps) => {
   };
 
   const startRecording = () => {
+    if (disabled) return;
+
     try {
       if (
         !("webkitSpeechRecognition" in window) &&
@@ -82,6 +86,12 @@ export const VoiceInput = ({ onTranscription }: VoiceInputProps) => {
       setRecording(false);
     }
   };
+
+  useEffect(() => {
+    if (disabled && recording) {
+      stopRecording();
+    }
+  }, [disabled, recording]);
 
   return (
     <button

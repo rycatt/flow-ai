@@ -18,11 +18,11 @@ import {
 import "@xyflow/react/dist/style.css";
 import { Eraser as EraserIcon, Moon, MousePointer, Sun } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { FlowchartCanvasProps } from "../types/flowchart";
+import { FlowchartCanvasProps } from "../../types/flowchart";
+import { Button } from "../ui/button";
 import { ErasableEdge } from "./ErasableEdge";
 import { ErasableNode } from "./ErasableNode";
 import { Eraser } from "./EraserTool";
-import { Button } from "./ui/button";
 
 export const FlowchartCanvas = ({
   nodes: initialNodes = [],

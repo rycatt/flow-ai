@@ -42,6 +42,7 @@ declare global {
 
 export interface VoiceInputProps {
   onTranscription?: (transcription: string) => void;
+  disabled?: boolean;
 }
 
 export type {

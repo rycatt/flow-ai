@@ -20,6 +20,26 @@ export function ErasableNode({
   const [editValue, setEditValue] = useState(label || "");
   const inputRef = useRef<HTMLInputElement>(null);
   const { setNodes } = useReactFlow();
+  const [isDarkTheme, setIsDarkTheme] = useState(() => {
+    if (typeof window !== "undefined") {
+      return document.documentElement.classList.contains("dark");
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    const checkTheme = () => {
+      setIsDarkTheme(document.documentElement.classList.contains("dark"));
+    };
+
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (isEditing && inputRef.current) {
@@ -85,11 +105,17 @@ export function ErasableNode({
             onChange={handleInputChange}
             onKeyDown={handleInputKeyDown}
             onBlur={handleInputBlur}
-            className="w-full text-sm border-none outline-none bg-transparent text-center"
+            className={`w-full text-sm border-none outline-none bg-transparent text-center ${
+              isDarkTheme ? "text-white" : "text-gray-900"
+            }`}
           />
         ) : (
-          <div className="text-sm text-gray-900">
-            {label || "Double-click to edit"}
+          <div
+            className={`text-sm ${
+              isDarkTheme ? "text-white" : "text-gray-900"
+            }`}
+          >
+            {label}
           </div>
         )}
       </div>

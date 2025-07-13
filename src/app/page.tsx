@@ -1,8 +1,8 @@
 "use client";
-import { FlowchartCanvas } from "@/components/FlowchartCanvas";
+import { FlowchartCanvas } from "@/components/flowchart/FlowchartCanvas";
+import { VoiceInput } from "@/components/flowchart/VoiceInput";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { VoiceInput } from "@/components/VoiceInput";
 import { Edge, Node, ReactFlowProvider } from "@xyflow/react";
 import { WandSparkles } from "lucide-react";
 import React, { useEffect, useState } from "react";
