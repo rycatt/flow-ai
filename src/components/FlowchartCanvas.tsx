@@ -179,6 +179,7 @@ export const FlowchartCanvas = ({
 
   const nodeTypes = {
     "erasable-node": ErasableNode,
+    default: ErasableNode,
   };
 
   const edgeTypes = {

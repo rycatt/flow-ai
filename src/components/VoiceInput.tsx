@@ -95,7 +95,6 @@ export const VoiceInput = ({ onTranscription }: VoiceInputProps) => {
             : "bg-white border-gray-300 text-gray-600 hover:border-gray-400 hover:bg-gray-50"
         }
       `}
-      disabled={recording}
       title={recording ? "Click to stop" : "Click to start recording"}
     >
       {recording ? (
