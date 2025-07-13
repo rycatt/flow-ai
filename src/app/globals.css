@@ -139,3 +139,24 @@
 *::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.3);
 }
+
+.tool-overlay {
+  pointer-events: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  height: 100%;
+  width: 100%;
+  transform-origin: top left;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.nopan {
+  pointer-events: auto;
+}
+
+.nodrag {
+  pointer-events: auto;
+}

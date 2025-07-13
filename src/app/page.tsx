@@ -112,15 +112,17 @@ export default function Home() {
         </div>
         <div className="flex-1 h-screen relative">
           {isGenerating && (
-            <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex items-center justify-center">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-600 mx-auto mb-4"></div>
-                <p className="text-gray-600 font-medium">
-                  Generating your flowchart...
-                </p>
-                <p className="text-sm text-gray-500 mt-2">
-                  This may take a few seconds
-                </p>
+            <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm z-10 rounded-lg shadow-lg p-4 border border-gray-200">
+              <div className="flex items-center gap-3">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-600"></div>
+                <div>
+                  <p className="text-gray-700 font-medium text-sm">
+                    Generating your flowchart...
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    Watch as your flowchart comes to life
+                  </p>
+                </div>
               </div>
             </div>
           )}
