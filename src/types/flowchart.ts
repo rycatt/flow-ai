@@ -1,4 +1,4 @@
-import { Edge, Node } from "@xyflow/react";
+import { Edge, EdgeChange, Node, NodeChange } from "@xyflow/react";
 
 export interface ProcessNodeData {
   label: string;
@@ -14,4 +14,7 @@ export interface FlowchartData {
 export interface FlowchartCanvasProps {
   nodes?: Node[];
   edges?: Edge[];
+  onNodesChange?: (changes: NodeChange[]) => void;
+  onEdgesChange?: (changes: EdgeChange[]) => void;
+  onAnimationComplete?: () => void;
 }

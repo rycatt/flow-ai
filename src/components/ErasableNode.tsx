@@ -11,7 +11,7 @@ export function ErasableNode({
   return (
     <div style={{ opacity: toBeDeleted ? 0.3 : 1 }}>
       <Handle type="target" position={Position.Top} />
-      <div style={{ padding: 10 }}>{label}</div>
+      <div>{label}</div>
       <Handle type="source" position={Position.Bottom} />
     </div>
   );

@@ -12,6 +12,7 @@ export default function Home() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
+  const [animationComplete, setAnimationComplete] = useState(false);
 
   const handleClick = async () => {
     if (!prompt.trim()) return;
@@ -126,8 +127,41 @@ export default function Home() {
               </div>
             </div>
           )}
+          {animationComplete && (
+            <div className="absolute top-4 left-4 bg-green-50 border border-green-200 z-10 rounded-lg shadow-lg p-4">
+              <div className="flex items-center gap-3">
+                <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                  <svg
+                    className="w-4 h-4 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-xs text-green-600">
+                    Your flowchart is ready
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
           <ReactFlowProvider>
-            <FlowchartCanvas nodes={nodes} edges={edges} />
+            <FlowchartCanvas
+              nodes={nodes}
+              edges={edges}
+              onAnimationComplete={() => {
+                setAnimationComplete(true);
+                setTimeout(() => setAnimationComplete(false), 3000);
+              }}
+            />
           </ReactFlowProvider>
         </div>
       </main>
