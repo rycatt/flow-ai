@@ -1,24 +1,15 @@
-/* xyflow theme files. Delete these to start from our base */
-
 .react-flow {
   --xy-background-color: #f7f9fb;
-  /* Custom Variables */
   --xy-theme-selected: #f57dbd;
   --xy-theme-hover: #c5c5c5;
   --xy-theme-edge-hover: black;
   --xy-theme-color-focus: #e8e8e8;
-
-  /* Built-in Variables see https://reactflow.dev/learn/customization/theming */
   --xy-node-border-default: 1px solid #ededed;
-
   --xy-node-boxshadow-default: 0px 3.54px 4.55px 0px #00000005,
     0px 3.54px 4.55px 0px #0000000d, 0px 0.51px 1.01px 0px #0000001a;
-
   --xy-node-border-radius-default: 8px;
-
   --xy-handle-background-color-default: #ffffff;
   --xy-handle-border-color-default: #aaaaaa;
-
   --xy-edge-label-color-default: #505050;
 }
 
@@ -28,8 +19,6 @@
     0px 0.51px 1.01px 0px rgba(255, 255, 255, 0.2);
   --xy-theme-color-focus: #535353;
 }
-
-/* Customizing Default Theming */
 
 .react-flow__node {
   box-shadow: var(--xy-node-boxshadow-default);
@@ -66,8 +55,8 @@
 }
 
 .react-flow__node-group {
-  background: transparent !important; /* Fully transparent background */
-  border: 1.5px dashed #b8b8b8 !important; /* Visible border (purple, or use #b8b8b8 for gray) */
+  background: transparent !important;
+  border: 1.5px dashed #b8b8b8 !important;
   border-radius: 10px;
   box-shadow: none;
   transition: border-color 0.2s;
@@ -113,19 +102,6 @@
   height: 5px;
 }
 
-/*
-  Custom Example CSS  - This CSS is to improve the example experience.
-  You can remove it if you want to use the default styles.
-*/
-
-/* New Theme Classes:
-   .xy-theme__button   - Styles for buttons.
-   .xy-theme__input    - Styles for text inputs.
-   .xy-theme__checkbox - Styles for checkboxes.
-   .xy-theme__select   - Styles for dropdown selects.
-   .xy-theme__label    - Styles for labels.
-*/
-
 :root {
   --color-primary: #ff0073;
   --color-background: #fefefe;
@@ -147,7 +123,6 @@
   margin: 0;
 }
 
-/* Custom Button Styling */
 .xy-theme__button {
   display: inline-flex;
   align-items: center;
@@ -194,12 +169,10 @@
   margin-right: 0.2rem;
 }
 
-/* Add gap between adjacent buttons */
 .xy-theme__button + .xy-theme__button {
   margin-left: 0.3rem;
 }
 
-/* Example Input Styling */
 .xy-theme__input {
   padding: 0.5rem 0.75rem;
   border: 1px solid var(--color-primary);
@@ -216,7 +189,6 @@
   box-shadow: 0 0 0 2px rgba(255, 0, 115, 0.3);
 }
 
-/* Specific Checkbox Styling */
 .xy-theme__checkbox {
   appearance: none;
   -webkit-appearance: none;
@@ -242,7 +214,6 @@
   box-shadow: 0 0 0 2px rgba(255, 0, 115, 0.3);
 }
 
-/* Dropdown Styling */
 .xy-theme__select {
   padding: 0.5rem 0.75rem;
   border: 1px solid var(--color-primary);
@@ -291,16 +262,61 @@
   box-shadow: none !important;
 }
 
-/* Start node (type: input) */
 .react-flow .react-flow__node-input {
-  background: #e0f7fa !important; /* Light cyan */
-  border: 2px solid #00bcd4 !important; /* Cyan border */
+  background: #e0f7fa !important;
+  border: 2px solid #00bcd4 !important;
   color: #006064 !important;
 }
 
-/* End node (type: output) */
 .react-flow .react-flow__node-output {
-  background: #ffebee !important; /* Light red */
-  border: 2px solid #e53935 !important; /* Red border */
+  background: #ffebee !important;
+  border: 2px solid #e53935 !important;
   color: #b71c1c !important;
+}
+
+.react-flow__controls {
+  background-color: white !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 8px !important;
+}
+
+.react-flow__controls button {
+  background-color: white !important;
+  border: 1px solid #d1d5db !important;
+  color: #111827 !important;
+  border-radius: 8px !important;
+  margin: 4px !important;
+  padding: 8px !important;
+}
+
+.react-flow__controls button:hover {
+  background-color: #f9fafb !important;
+}
+
+.dark .react-flow__controls {
+  background-color: rgba(38, 38, 38, 0.6) !important;
+  border: 1px solid #525252 !important;
+}
+
+.dark .react-flow__controls button {
+  background-color: rgba(38, 38, 38, 0.6) !important;
+  border: 1px solid #525252 !important;
+  color: #f5f5f5 !important;
+  margin: 4px !important;
+  padding: 8px !important;
+}
+
+.dark .react-flow__controls button:hover {
+  background-color: #404040 !important;
+}
+
+.react-flow__minimap {
+  background-color: white !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 8px !important;
+}
+
+.dark .react-flow__minimap {
+  background-color: #171717 !important;
+  border: 1px solid #525252 !important;
 }

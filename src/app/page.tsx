@@ -72,15 +72,15 @@ export default function Home() {
   return (
     <div className="h-screen flex">
       <main className="flex w-full">
-        <div className="w-1/3 min-w-96 p-8 border-r border-gray-200 bg-white">
+        <div className="w-1/3 min-w-96 p-8 border-r dark:bg-neutral-900 dark:border-neutral-900 border-gray-200 bg-white">
           <div className="flex flex-col gap-4">
-            <h1 className="text-4xl font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <h1 className="text-4xl font-semibold text-gray-900 dark:text-white">
               Flow AI
             </h1>
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-neutral-300">
               Turn your ideas into interactive flowcharts
             </p>
-            <Card>
+            <Card className="dark:bg-neutral-900">
               <CardHeader>
                 <CardTitle className="text-2xl font-medium flex items-center gap-2">
                   <WandSparkles />
@@ -94,7 +94,7 @@ export default function Home() {
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="Tell me about your process..."
                     disabled={isGenerating}
-                    className="w-full h-96 p-3 pr-12 border border-gray-300 rounded-md focus:ring-2 focus:ring-gray-500 focus:border-transparent resize-none transition-all duration-200"
+                    className="w-full h-96 p-3 pr-12 border border-neutral-400 dark:border-neutral-700 rounded-md focus:ring-2 focus:ring-neutral-600 dark:focus:ring-neutral-500 focus:border-transparent resize-none transition-all duration-200 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 placeholder-gray-600 dark:placeholder-neutral-500"
                   />
                   <div className="absolute bottom-3 right-3">
                     <VoiceInput onTranscription={setPrompt} />
@@ -103,7 +103,7 @@ export default function Home() {
                 <button
                   onClick={handleClick}
                   disabled={isGenerating || !prompt.trim()}
-                  className="w-full bg-gray-800 hover:bg-gray-700 disabled:bg-gray-400 text-white font-medium py-3 px-4 rounded-md transition-all duration-200 cursor-pointer mt-2 transform disabled:transform-none disabled:cursor-default"
+                  className="w-full bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-neutral-100 disabled:bg-gray-400 dark:disabled:bg-neutral-600 text-white dark:text-neutral-900 font-medium py-3 px-4 rounded-md transition-all duration-200 cursor-pointer mt-2 transform disabled:transform-none disabled:cursor-default"
                 >
                   {isGenerating ? <LoadingSpinner /> : "Generate Flowchart"}
                 </button>
@@ -113,14 +113,14 @@ export default function Home() {
         </div>
         <div className="flex-1 h-screen relative">
           {isGenerating && (
-            <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm z-10 rounded-lg shadow-lg p-4 border border-gray-200">
+            <div className="absolute top-4 left-4 bg-white/90 dark:bg-neutral-800/90 backdrop-blur-sm z-10 rounded-lg shadow-lg p-4 border border-gray-200 dark:border-neutral-600">
               <div className="flex items-center gap-3">
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-600"></div>
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-600 dark:border-neutral-400"></div>
                 <div>
-                  <p className="text-gray-700 font-medium text-sm">
+                  <p className="text-gray-700 dark:text-neutral-200 font-medium text-sm">
                     Generating your flowchart...
                   </p>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-500 dark:text-neutral-400">
                     Watch as your flowchart comes to life
                   </p>
                 </div>
@@ -128,11 +128,11 @@ export default function Home() {
             </div>
           )}
           {animationComplete && (
-            <div className="absolute top-4 left-4 bg-green-50 border border-green-200 z-10 rounded-lg shadow-lg p-4">
+            <div className="absolute top-4 left-4 bg-gray-50 dark:bg-neutral-800/90 border border-gray-200 dark:border-neutral-600 z-10 rounded-lg shadow-lg p-4">
               <div className="flex items-center gap-3">
-                <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                <div className="w-6 h-6 bg-gray-900 dark:bg-white rounded-full flex items-center justify-center">
                   <svg
-                    className="w-4 h-4 text-white"
+                    className="w-4 h-4 text-white dark:text-neutral-900"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -146,7 +146,7 @@ export default function Home() {
                   </svg>
                 </div>
                 <div>
-                  <p className="text-xs text-green-600">
+                  <p className="text-xs text-gray-700 dark:text-neutral-200">
                     Your flowchart is ready
                   </p>
                 </div>

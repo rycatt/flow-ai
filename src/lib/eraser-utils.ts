@@ -178,7 +178,6 @@ export function samplePathPoints(
     const distance = distanceBetweenPoints(prev, current);
 
     if (distance > maxDistance) {
-      // Add intermediate points
       const numSegments = Math.ceil(distance / maxDistance);
       for (let j = 1; j < numSegments; j++) {
         const t = j / numSegments;

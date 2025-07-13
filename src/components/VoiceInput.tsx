@@ -91,8 +91,8 @@ export const VoiceInput = ({ onTranscription }: VoiceInputProps) => {
         flex items-center justify-center shadow-sm cursor-pointer
         ${
           recording
-            ? "bg-red-500 border-red-600 text-white shadow-lg scale-110"
-            : "bg-white border-gray-300 text-gray-600 hover:border-gray-400 hover:bg-gray-50"
+            ? "bg-red-500 border-red-600 text-white shadow-lg scale-110 hover:bg-red-800"
+            : "dark:bg-neutral-800 dark:border-neutral-600 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:hover:border-neutral-500 bg-white border-gray-300 text-gray-600 hover:border-gray-400 hover:bg-gray-50 hover:text-gray-700"
         }
       `}
       title={recording ? "Click to stop" : "Click to start recording"}
